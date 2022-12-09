@@ -8,10 +8,10 @@ COPY . .
 
 ENV NODE_ENV=production DB_HOST=item-db
 
+RUN npm install --production --unsafe-perm && npm run build
+
 RUN yarn install --production
 
 CMD ["node", "src/index.js"]
 
 EXPOSE 8080
-
-RUN npm install --production --unsafe-perm && npm run build
