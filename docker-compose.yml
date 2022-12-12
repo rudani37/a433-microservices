@@ -1,50 +1,18 @@
-version: "3.7"
+version: '3' #Menggunakan Docker Compose versi 2 atau lebih.
 
+services: #Memiliki dua buah service: item-app dan item-db.
+  item-app: #service: item-app
+    image: ghcr.io/rudani37/item-app:v1 # Menggunakan image item-app GitHub Packages
+    restart: always # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti
+    ports:          # Melakukan port mapping agar dapat diakses dari port 80 di host
+      - 80:8080 
+    depends_on:     # Item-app hanya berjalan setelah item-db diluncurkan
+      - item-db
+  item-db: #service: item-db.
+    image: mongo:3   # Menggunakan image mongo:3 dari Docker Hub.
+    restart: always
+    volumes:         # Memakai volume bernama app-db dengan target /data/db di container
+      - app-db:/data/db
 
-services:
-
-  app:
-
-    image: node:14-alpine
-
-    command: sh -c "yarn install && yarn run dev"
-
-    ports:
-
-      - 8080:8080
-
-    working_dir: /app
-
-    volumes:
-
-      - ./:/app
-
-    environment:
-
-      MYSQL_HOST: mysql
-
-      MYSQL_USER: root
-
-      MYSQL_PASSWORD: dicoding
-
-      MYSQL_DB: todo-db
-
-
-  mysql:
-
-    image: mysql:5.7
-
-    volumes:
-
-      - todo-mysql-data:/var/lib/mysql
-
-    environment:
-
-      MYSQL_ROOT_PASSWORD: dicoding
-
-      MYSQL_DATABASE: item-db
-
-
-volumes:
-
-  todo-mysql-data:
+volumes: # Membuat satu buah volume bernama app-db
+  app-db:
