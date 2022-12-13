@@ -1,0 +1,5 @@
+#github fork repository
+https://github.com/rudani37/a433-microservices/tree/proyek-pertama
+
+#github package
+https://github.com/rudani37/a433-microservices/pkgs/container/item-app
