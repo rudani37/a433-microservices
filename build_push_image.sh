@@ -7,4 +7,4 @@ docker tag item-app:v1 ghcr.io/rudani37/item-app:v1             # Mengubah nama 
 
 echo $TOKEN | docker login ghcr.io -u rudani37 --password-stdin # Login ke GitHub Packages via Terminal
 
-docker push ghcr.io/rudani37/item-app:v1set                     # Mengunggah image ke GitHub Packages
+docker push ghcr.io/rudani37/item-app:v1                        # Mengunggah image ke GitHub Packages
