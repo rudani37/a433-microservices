@@ -1,13 +1,13 @@
-#base image Node.js versi 14.
+#menggunakan image Node.js versi 14 sebagai base image
 FROM node:14-alpine 
 
-#Menentukan bahwa working directory untuk container adalah /app.
+#menggunakan /app sebagai working directory untuk container
 WORKDIR /app
 
 #Menyalin seluruh source code ke working directory di container
 COPY . .
 
-#Menentukan agar aplikasi berjalan dalam production mode dan menggunakan container bernama item-dbsebagai database host
+#Menentukan agar aplikasi berjalan dalam enviroment production mode dan menggunakan container bernama item-db sebagai database host
 ENV NODE_ENV=production DB_HOST=item-db
 
 #Menginstal dependencies untuk production dan kemudian build aplikasi
