@@ -1,4 +1,4 @@
-version: '3' #Menggunakan Docker Compose versi 2 atau lebih.
+version: '3.7' #Menggunakan Docker Compose versi 2 atau lebih.
 
 services: #Memiliki dua buah service: item-app dan item-db.
   item-app: #service: item-app
