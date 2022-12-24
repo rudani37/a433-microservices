@@ -5,45 +5,53 @@ metadata:
   labels:
     app: mongo
 spec:
-  serviceName: mongo-service
-  replicas: 1
   selector:
     matchLabels:
       app: mongo
+      tier: backend
+  serviceName: mongo-service
+  replicas: 1
+  minReadySeconds: 10
   template:
     metadata:
       labels:
         app: mongo
         tier: backend
     spec:
+      terminationGracePeriodSeconds: 10
       containers:
-        - name: mongo
-          image: mongo:4.4.1
-          ports:
-            - containerPort: 27017
-          volumeMounts:
-            - name: mongo-persistent-storage
-              mountPath: /data/db
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-secret
-                  key: MONGO_INITDB_ROOT_USERNAME
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-secret
-                  key: MONGO_INITDB_ROOT_PASSWORD
-          command:
-            - mongod
-            - "--auth"
-          volumeClaimTemplates:
-            - metadata:
-                name: mongo-persistent-storage
-              spec:
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 1Gi
+      - image: mongo:4.4.1
+        name: mongo
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: MONGO_INITDB_ROOT_USERNAME
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: MONGO_INITDB_ROOT_PASSWORD
+        command:
+          - mongod
+          - "--auth"
+        ports:
+        - containerPort: 27017
+          name: mysql
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongo-persistent-storage
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+      - name: mongo-config-map
+        configMap:
+          name: mongo-config
+          items: 
+            - key: mongo.conf
+              path: mongo.conf
+      - name: mongo-secrets
+        secret:
+          secretName: mongo-secret
