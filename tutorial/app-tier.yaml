@@ -35,11 +35,6 @@ spec:
           - containerPort: 8080
         env:
           - name: REDIS_URL
-            # Environment variable service discovery
-            # Naming pattern:
-            #   IP address: <all_caps_service_name>_SERVICE_HOST
-            #   Port: <all_caps_service_name>_SERVICE_PORT
-            #   Named Port: <all_caps_service_name>_SERVICE_PORT_<all_caps_port_name>
             value: redis://$(DATA_TIER_SERVICE_HOST):$(DATA_TIER_SERVICE_PORT_REDIS)
           - name: PASSWORD
             valueFrom:

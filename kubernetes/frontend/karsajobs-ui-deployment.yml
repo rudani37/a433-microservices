@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: karsajobs-ui
-        image: docker.io/username/karsajobs-ui:latest
+        image: ghcr.io/rudani37/karsajobs-ui:latest
         ports:
         - containerPort: 3000

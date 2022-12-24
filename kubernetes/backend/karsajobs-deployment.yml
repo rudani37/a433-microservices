@@ -16,6 +16,19 @@ spec:
     spec:
       containers:
       - name: karsajobs
-        image: docker.io/username/karsajobs:latest
+        image: ghcr.io/rudani37/karsajobs:latest
         ports:
         - containerPort: 8080
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo-service:27017/karsajobs"
+           - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: karsajobs-secret
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: karsajobs-secret
+                  key: MONGO_INITDB_ROOT_PASSWORD
