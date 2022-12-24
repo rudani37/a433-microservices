@@ -5,7 +5,7 @@ metadata:
   labels:
     app: karsajobs
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: karsajobs
@@ -15,20 +15,20 @@ spec:
         app: karsajobs
     spec:
       containers:
-      - name: karsajobs
-        image: ghcr.io/rudani37/karsajobs:latest
-        ports:
-        - containerPort: 8080
+        - name: karsajobs
+          image: ghcr.io/rudani37/karsajobs:latest
+          ports:
+          - containerPort: 8080
           env:
             - name: MONGO_URI
-              value: "mongodb://mongo-service:27017/karsajobs"
-           - name: MONGO_INITDB_ROOT_USERNAME
+              value: "27017"
+            - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
-                secretKeyRef:
-                  name: karsajobs-secret
-                  key: MONGO_INITDB_ROOT_USERNAME
+                  secretKeyRef:
+                    name: mongo-secret
+                    key: MONGO_INITDB_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: karsajobs-secret
-                  key: MONGO_INITDB_ROOT_PASSWORD
+                  secretKeyRef:
+                    name: mongo-secret
+                    key: MONGO_INITDB_ROOT_PASSWORD
