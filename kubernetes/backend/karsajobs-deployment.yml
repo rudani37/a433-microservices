@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karsajobs
+  labels:
+    app: karsajobs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karsajobs
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+    spec:
+      containers:
+      - name: karsajobs
+        image: docker.io/username/karsajobs:latest
+        ports:
+        - containerPort: 8080
