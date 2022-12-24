@@ -23,25 +23,20 @@ spec:
       - image: mongo:4.4.1
         name: mongo
         env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: mongo-secret
-              key: MONGO_INITDB_ROOT_USERNAME
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mongo-secret
-              key: MONGO_INITDB_ROOT_PASSWORD
-        command:
-          - mongod
-          - "--auth"
+          - name: MONGO_INITDB_ROOT_USERNAME_FILE
+            value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+          - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+            value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
         ports:
         - containerPort: 27017
           name: mysql
         volumeMounts:
         - name: mongo-persistent-storage
           mountPath: /data/db
+        - name: mongo-configmap
+          mountPath: /config
+        - name: mongo-secret
+          mountPath: /etc/mongo-credentials
       volumes:
       - name: mongo-persistent-storage
         persistentVolumeClaim:

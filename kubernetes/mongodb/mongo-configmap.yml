@@ -6,11 +6,9 @@ metadata:
     app: mongo
 data:
   mongo.conf: |
+    storage:
+      dbPath: /data/db
     systemLog:
       destination: file
       path: /var/log/mongodb/mongod.log
       logAppend: true
-    storage:
-      dbPath: /data/db
-      journal:
-        enabled: true
