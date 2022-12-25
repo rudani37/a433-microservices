@@ -1,14 +1,14 @@
 version: 2.1
 
+orbs:
+  hadolint: orbies/hadolint@1.0.0
+
 jobs:
   lint-dockerfile:
     docker:
       - image: hadolint/hadolint:latest
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
       - run:
           name: Lint Dockerfile
           command: |
