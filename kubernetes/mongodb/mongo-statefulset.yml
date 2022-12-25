@@ -41,12 +41,12 @@ spec:
       - name: mongo-persistent-storage
         persistentVolumeClaim:
           claimName: mongo-pvc
-      - name: mongo-config-map
+      - name: mongo-config
         configMap:
           name: mongo-config
           items: 
             - key: mongo.conf
               path: mongo.conf
-      - name: mongo-secrets
+      - name: mongo-secret
         secret:
           secretName: mongo-secret
