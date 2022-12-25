@@ -33,7 +33,7 @@ spec:
         volumeMounts:
         - name: mongo-persistent-storage
           mountPath: /data/db
-        - name: mongo-configmap
+        - name: mongo-config
           mountPath: /config
         - name: mongo-secret
           mountPath: /etc/mongo-credentials
