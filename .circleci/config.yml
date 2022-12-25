@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  hadolint: orbies/hadolint@1.0.0
-
 jobs:
   lint-dockerfile:
     docker:
