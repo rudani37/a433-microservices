@@ -1,14 +1,14 @@
 apiVersion: v1
-kind: Service
+kind: Service           # menentukan jenis objek yang akan dibuat, yaitu sebuah Service
 metadata:
-  name: mongo-service
+  name: mongo-service   # memberikan nama Service
   labels:
     app: mongo
 spec:
-  type: NodePort
+  type: NodePort        # menentukan tipe Service, yaitu "NodePort" yang menyediakan port di semua node dalam cluster
   selector:
     app: mongo
     tier: backend
   ports:
-    - port: 27017
-      targetPort: 27017
+    - port: 27017         # menentukan port yang akan digunakan oleh Service
+      targetPort: 27017   # menentukan port yang akan diakses pada pod

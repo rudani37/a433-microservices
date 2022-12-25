@@ -1,35 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1       # menentukan versi dari API Kubernetes yang digunakan untuk menyatakan spesifikasi objek
+kind: Deployment          # menentukan jenis objek yang akan dibuat, yaitu sebuah deployment
+metadata:                 # menyimpan metadata mengenai deployment, seperti nama dan label.
   name: karsajobs
   labels:
     app: karsajobs
 spec:
-  replicas: 3
-  selector:
+  replicas: 3             # menentukan jumlah replika pod yang akan dibuat oleh deployment.
+  selector:               # menentukan label yang akan dipakai untuk mencari pod yang akan diakses melalui deployment
     matchLabels:
       app: karsajobs
-  template:
+  template:               # menyatakan template yang akan digunakan untuk membuat pod
     metadata:
       labels:
         app: karsajobs
     spec:
-      containers:
-        - name: karsajobs
-          image: ghcr.io/rudani37/karsajobs:latest
+      containers:         # menyatakan kontainer yang akan dibuat dalam pod
+        - name: karsajobs # memberikan nama kontainer
+          image: ghcr.io/rudani37/karsajobs:latest  # menentukan image yang akan digunakan oleh kontainer
           ports:
-          - containerPort: 8080
+          - containerPort: 8080  # menentukan port yang akan digunakan oleh kontainer untuk diakses dari dalam cluster
           env:
-            - name: APP_PORT
+            - name: APP_PORT     # menjalakan app karsajobs dalam spesifik port
               value: "8080"
-            - name: MONGO_HOST
+            - name: MONGO_HOST   # menggunakan mongodb hostname dengan nilai mongo
               value: "mongo"
-            - name: MONGO_USER
+            - name: MONGO_USER   # mengambil informasi mongodb user dari manifest mongo-secret dengan key variabel MONGO_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: MONGO_ROOT_USERNAME
-            - name: MONGO_PASS
+            - name: MONGO_PASS   #  mengambil informasi mongodb password dari manifest mongo-secret dengan key variabel MONGO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret

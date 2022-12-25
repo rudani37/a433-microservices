@@ -1,14 +1,14 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: karsajobs
-  labels:
+apiVersion: v1         # menentukan versi dari API Kubernetes yang digunakan untuk menyatakan spesifikasi objek
+kind: Service          # menentukan jenis objek yang akan dibuat, yaitu sebuah service
+metadata:              # menyimpan metadata mengenai service, seperti nama dan label
+  name: karsajobs      # memberikan nama service
+  labels:              # memberikan label pada service
     app: karsajobs
-spec:
-  type: NodePort
-  ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 32767
-  selector:
+spec:                  # menyatakan spesifikasi service
+  type: NodePort       # menentukan tipe service, yaitu "NodePort" yang akan membuka port di semua node di cluster untuk diakses dari luar cluster.
+  ports:               # menyatakan penggunaan port dan node port
+  - port: 8080         # menentukan port yang akan digunakan oleh service untuk diakses dari luar cluster.
+    targetPort: 8080   # menentukan port yang akan digunakan oleh pod untuk diakses dari dalam cluster.
+    nodePort: 32767    # menentukan port yang akan digunakan oleh node pod untuk diakses dari luar cluster.
+  selector:            # menentukan label yang akan dipakai untuk mencari pod yang akan diakses melalui service
     app: karsajobs

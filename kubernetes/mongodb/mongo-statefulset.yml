@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: StatefulSet           # menentukan jenis objek yang akan dibuat, yaitu sebuah StatefulSet
 metadata:
   name: mongo-statefulset
   labels:
@@ -9,10 +9,10 @@ spec:
     matchLabels:
       app: mongo
       tier: backend
-  serviceName: mongo-service
+  serviceName: mongo-service    # menentukan nama Service yang akan digunakan oleh StatefulSet
   replicas: 1
   minReadySeconds: 10
-  template:
+  template:                     # menyatakan template yang akan digunakan oleh StatefulSet untuk membuat pod
     metadata:
       labels:
         app: mongo
@@ -23,16 +23,16 @@ spec:
       - image: mongo:4.4.1
         name: mongo
         env:
-          - name: MONGO_INITDB_ROOT_USERNAME_FILE
-            value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+          - name: MONGO_INITDB_ROOT_USERNAME_FILE                 # memberikan nama pada environment variable.
+            value: /etc/mongo-credentials/MONGO_ROOT_USERNAME     # menyatakan sumber dari nilai environment variable
           - name: MONGO_INITDB_ROOT_PASSWORD_FILE
             value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
         ports:
         - containerPort: 27017
           name: mysql
-        volumeMounts:
+        volumeMounts:                           # menyatakan volume yang akan digunakan oleh pod
         - name: mongo-persistent-storage
-          mountPath: /data/db
+          mountPath: /data/db                   # menentukan tempat dimana volume akan di-mount
         - name: mongo-config
           mountPath: /config
         - name: mongo-secret

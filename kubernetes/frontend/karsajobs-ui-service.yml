@@ -1,7 +1,7 @@
 apiVersion: v1
-kind: Service
+kind: Service               # menentukan jenis objek yang akan dibuat, yaitu sebuah service
 metadata:
-  name: karsajobs-ui
+  name: karsajobs-ui        # memberikan nama service
   labels:
     app: karsajobs-ui
 spec:

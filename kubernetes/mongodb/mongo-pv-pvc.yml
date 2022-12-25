@@ -1,16 +1,16 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolume        # menentukan jenis objek yang akan dibuat, yaitu sebuah PersistentVolume
 metadata:
-  name: mongo-pv
+  name: mongo-pv              # memberikan nama PersistentVolume
   labels:
     app: mongo
 spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /data/mongo
+  capacity:                   # menyatakan kapasitas storage yang akan disediakan oleh PersistentVolume 
+    storage: 1Gi              # menentukan kapasitas storage yang akan disediakan oleh PersistentVolume
+  accessModes:                # menyatakan mode akses yang akan disediakan oleh PersistentVolume
+    - ReadWriteOnce           # PersistentVolume(PV) tersebut tidak dapat digunakan bersama-sama oleh lebih dari satu pod, dan hanya satu pod yang dapat menulis data ke dalam PV tersebut
+  hostPath:                   
+    path: /data/mongo         # menentukan path di host yang akan digunakan oleh PersistentVolume
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

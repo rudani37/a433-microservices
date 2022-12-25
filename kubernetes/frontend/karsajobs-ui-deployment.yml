@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: karsajobs-ui
-        image: ghcr.io/rudani37/karsajobs-ui:latest
+        image: ghcr.io/rudani37/karsajobs-ui:latest # menentukan image yang akan digunakan oleh kontainer
         ports:
         - containerPort: 3000
