@@ -3,12 +3,8 @@ version: 2.1
 jobs:
   lint-dockerfile:
     docker:
-      - image: circleci/golang:1.15
+      - image: hadolint/hadolint:latest
     steps:
-      - run:
-          name: Install hadolint
-          command: |
-            go get github.com/hadolint/hadolint
       - run:
           name: Lint Dockerfile
           command: |
