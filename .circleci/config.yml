@@ -8,8 +8,8 @@ jobs:
     docker:
       - image: hadolint/hadolint:latest
       - auth:
-          username: algozo
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          username: rudani
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker:
