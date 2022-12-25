@@ -26,7 +26,7 @@ jobs:
 
   build-app-karsajobs:
     docker:
-      - image: alpine:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
       - run:
