@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  lint-dockerfile:
+    docker:
+      - image: hadolint/hadolint:latest-debian
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Lint Dockerfile
+          command: |
+            hadolint Dockerfile
+
+  build-app-karsajobs-ui:
+    docker:
+      - image: cimg/node:12.18
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+      - run:
+          name: Build and push image
+          command: |
+            echo $GITHUB_TOKEN | docker login ghcr.io -u rudani37 --password-stdin
+            docker build -t karsajobs-ui:latest .
+            docker tag karsajobs-ui:latest ghcr.io/rudani37/karsajobs-ui:latest
+            docker push ghcr.io/rudani37/karsajobs-ui:latest
+
+workflows:
+  build:
+    jobs:
+      - lint-dockerfile
+      - build-app-karsajobs-ui
