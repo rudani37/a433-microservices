@@ -1,39 +1,42 @@
-version: 2.1
+version: 2.1            # menyatakan versi dari syntax CircleCI yang digunakan
 
-jobs:
-  lint-dockerfile:
-    docker:
-      - image: hadolint/hadolint:latest-debian
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Lint Dockerfile
-          command: |
+jobs:                   # menyatakan setiap tahap yang ada dalam pipeline CI. Setiap tahap disebut "job" dan harus memiliki nama yang unik.
+  lint-dockerfile:      # proses untuk menginstal hadolint dan menjalankannya terhadap berkas Dockerfile
+    docker:             # menggunakan docker sebagai eksekutor
+      - image: hadolint/hadolint:latest-debian    # menggunakan image hadolint dengan base sistem operasi debian
+    steps:              # menyatakan setiap langkah yang harus dilakukan dalam job. Setiap langkah disebut "step" dan harus memiliki nama yang unik
+      - checkout              #untuk meng-clone repositori kode sumber ke dalam mesin virtual yang digunakan oleh CircleCI
+      - setup_remote_docker   # untuk mengkonfigurasi lingkungan Docker di mesin remote (misalnya, mesin build yang disediakan oleh CircleCI)
+      - run:            # menyatakan bahwa step tersebut merupakan perintah yang akan dijalankan pada container
+          name: Lint Dockerfile       # memberikan nama pada step tersebut
+          command: |                  # menyatakan perintah yang akan dijalankan pada step tersebut. Perintah tersebut harus ditulis pada baris baru setelah command: |.
             hadolint Dockerfile
 
   test-app:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/go:1.15.10
+    working_directory: ~/repo         # menentukan working directory untuk pengetesan aplikasi
+    docker:                           # menggunakan docker sebagai eksekutor
+      - image: cimg/go:1.15.10        # menggunakan base image bahasa pemrograman GO dari Docker image oleh CircleCI 
     steps:
       - checkout
       - run:
           name: Install Dependencies
-          command: go get ./...
+          command: go get ./...       # Perintah go get ./... akan mengunduh dan menginstal semua paket yang dibutuhkan oleh aplikasi Go yang sedang dikembangkan
       - run:
           name: Run unit tests
+          # untuk menjalankan unit test di aplikasi Go,  flag -v menyatakan bahwa output dari unit test akan dicetak dengan detail, 
+          # sedangkan flag -short menyatakan bahwa unit test yang bersifat short akan dijalankan. Flag --count=1 menyatakan bahwa setiap unit test hanya akan dijalankan sekali saja
+          # $(go list ./...) adalah sebuah ekspansi perintah yang akan mencari semua package di aplikasi Anda dan mengembalikan daftar package tersebut
           command: |
             go test -v -short --count=1 $(go list ./...)
 
   build-app-karsajobs:
     docker:
-      - image: cimg/go:1.15.10
+      - image: cimg/go:1.15.10      # menggunakan base image bahasa pemrograman GO dari Docker image oleh CircleCI 
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
+      - setup_remote_docker:          # untuk mengkonfigurasi lingkungan Docker di mesin remote (misalnya, mesin build yang disediakan oleh CircleCI)
+          version: 20.10.14           # dengan menggunakan versi spesifik
+          docker_layer_caching: true  # mengaktifkan cache layer Docker selama proses build image. Ini akan membantu mempercepat proses build image dengan menggunakan layer image yang telah dibangun sebelumnya jika tersedia.
       - run:
           name: Build and push image
           command: |
@@ -42,9 +45,9 @@ jobs:
             docker tag karsajobs:latest ghcr.io/rudani37/karsajobs:latest
             docker push ghcr.io/rudani37/karsajobs:latest
 
-workflows:
-  build:
-    jobs:
+workflows:              # menyatakan konfigurasi untuk menentukan bagaimana jobs harus dijalankan
+  build:                # merupakan nama workflow yang akan dijalankan
+    jobs:               # menyatakan urutan job yang akan dijalankan dalam workflow
       - lint-dockerfile
       - test-app
       - build-app-karsajobs
