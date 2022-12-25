@@ -1,20 +1,20 @@
-version: 2.1
+version: 2.1            # menyatakan versi dari syntax CircleCI yang digunakan
 
-jobs:
-  lint-dockerfile:
-    docker:
-      - image: hadolint/hadolint:latest-debian
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Lint Dockerfile
-          command: |
+jobs:                   # menyatakan setiap tahap yang ada dalam pipeline CI. Setiap tahap disebut "job" dan harus memiliki nama yang unik.
+  lint-dockerfile:      # proses untuk menginstal hadolint dan menjalankannya terhadap berkas Dockerfile
+    docker:             # menggunakan docker sebagai eksekutor
+      - image: hadolint/hadolint:latest-debian    # menggunakan image hadolint dengan base sistem operasi debian
+    steps:              # menyatakan setiap langkah yang harus dilakukan dalam job. Setiap langkah disebut "step" dan harus memiliki nama yang unik
+      - checkout              #untuk meng-clone repositori kode sumber ke dalam mesin virtual yang digunakan oleh CircleCI
+      - setup_remote_docker   # untuk mengkonfigurasi lingkungan Docker di mesin remote (misalnya, mesin build yang disediakan oleh CircleCI)
+      - run:            # menyatakan bahwa step tersebut merupakan perintah yang akan dijalankan pada container
+          name: Lint Dockerfile       # memberikan nama pada step tersebut
+          command: |                  # menyatakan perintah yang akan dijalankan pada step tersebut. Perintah tersebut harus ditulis pada baris baru setelah command: |.
             hadolint Dockerfile
 
   build-app-karsajobs-ui:
     docker:
-      - image: cimg/node:12.18
+      - image: cimg/node:12.18        # menggunakan base image bahasa pemrograman Nodejs dari Docker image oleh CircleCI 
     steps:
       - checkout
       - setup_remote_docker:
