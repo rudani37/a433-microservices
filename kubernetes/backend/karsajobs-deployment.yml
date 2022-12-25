@@ -22,14 +22,14 @@ spec:
           env:
             - name: APP_PORT     # menjalakan app karsajobs dalam spesifik port
               value: "8080"
-            - name: MONGO_HOST   # menggunakan mongodb hostname dengan nilai mongo
+            - name: MONGO_HOST   # menggunakan mongodb hostname dengan nilai yang diambil dari MongoDB Service
               value: "mongo"
-            - name: MONGO_USER   # mengambil informasi mongodb user dari manifest mongo-secret dengan key variabel MONGO_ROOT_USERNAME
+            - name: MONGO_USER   # mengambil nilai mongodb user dari manifest mongo-secret dengan key variabel MONGO_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: MONGO_ROOT_USERNAME
-            - name: MONGO_PASS   #  mengambil informasi mongodb password dari manifest mongo-secret dengan key variabel MONGO_ROOT_PASSWORD
+            - name: MONGO_PASS   #  mengambil nilai mongodb password dari manifest mongo-secret dengan key variabel MONGO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
