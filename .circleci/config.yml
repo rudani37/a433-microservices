@@ -6,6 +6,9 @@ jobs:
       - image: hadolint/hadolint:latest
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
           name: Lint Dockerfile
           command: |
@@ -37,8 +40,9 @@ jobs:
           name: Build and push image
           command: |
             echo $GITHUB_TOKEN | docker login ghcr.io -u rudani37 --password-stdin
-            docker build -t karsajobs-ui:latest .
-            docker push karsajobs-ui:latest
+            docker build -t karsajobs:latest .
+            docker tag karsajobs:latest ghcr.io/rudani37/karsajobs:latest
+            docker push ghcr.io/rudani37/karsajobs:latest
 
 workflows:
   build:
