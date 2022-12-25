@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: hadolint/hadolint:latest
     steps:
+      - checkout
       - run:
           name: Lint Dockerfile
           command: |
@@ -25,17 +26,19 @@ jobs:
             go test -v -short --count=1 $(go list ./...)
 
   build-app-karsajobs:
-    machine:
-      - image: ubuntu-2204:2022.04.2
+    docker:
+      - image: cimg/go:1.15.10
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run:
           name: Build and push image
           command: |
             echo $GITHUB_TOKEN | docker login ghcr.io -u rudani37 --password-stdin
             docker build -t karsajobs-ui:latest .
             docker push karsajobs-ui:latest
-
 
 workflows:
   build:
