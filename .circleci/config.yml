@@ -7,7 +7,7 @@ jobs:
   lint-dockerfile:
     docker:
       - image: hadolint/hadolint:latest
-      auth:
+      - auth:
           username: algozo
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
