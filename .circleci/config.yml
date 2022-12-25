@@ -26,6 +26,7 @@ jobs:
       - run:
           name: Build and push image
           command: |
+            echo $GITHUB_TOKEN | docker login ghcr.io -u rudani37 --password-stdin
             docker build -t karsajobs:latest .
             docker push karsajobs:latest
 
