@@ -25,13 +25,17 @@ jobs:
             go test -v -short --count=1 $(go list ./...)
 
   build-app-karsajobs:
-    docker:
-      - image: cimg/go:1.15.10
+    machine:
+      - image: ubuntu-2204:2022.04.2
     steps:
       - checkout
       - run:
-          name: Build and push Docker image
-          command: sh build_push_image_karsajobs.sh
+          name: Build and push image
+          command: |
+            echo $GITHUB_TOKEN | docker login ghcr.io -u rudani37 --password-stdin
+            docker build -t karsajobs-ui:latest .
+            docker push karsajobs-ui:latest
+
 
 workflows:
   build:
