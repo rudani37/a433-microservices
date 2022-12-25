@@ -25,9 +25,8 @@ jobs:
             go test -v -short --count=1 $(go list ./...)
 
   build-app-karsajobs:
-    machine:
-      image: ubuntu-1804:current
-      docker_layer_caching: true
+    docker:
+      - image: alpine:latest
     steps:
       - checkout
       - run:
