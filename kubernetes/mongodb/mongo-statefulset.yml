@@ -29,11 +29,11 @@ spec:
             value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
         ports:
         - containerPort: 27017
-          name: mongo 
+          name: mongo
         volumeMounts:                           # menyatakan volume yang akan digunakan oleh pod
         - name: mongo-persistent-storage
           mountPath: /data/db                   # menentukan tempat dimana volume akan di-mount
-        - name: mongo-configmap
+        - name: mongo-config
           mountPath: /config
         - name: mongo-secret
           mountPath: /etc/mongo-credentials
